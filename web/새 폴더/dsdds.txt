@@ -1,0 +1,85 @@
+====================================================================
+실무형 워크플로우: Figma 무료 → Tailwind + React
+====================================================================
+
+1. Figma 무료 플랜 전략
+-----------------------
+- 단일 프로젝트에 모든 모듈 디자인
+- Header, Footer, Section 각각을 Frame 단위로 설계
+- 재사용 가능한 버튼, 카드, 아이콘은 Components로 최소화
+- Variants 사용 제한적 -> 상태별 버튼, 섹션 변형 등은 별도 Frame 복사로 관리
+- 반응형 디자인은 Constraints + Auto Layout 활용
+
+Tip:
+- 무료 플랜은 버전 히스토리 제한 -> 모듈별 Frame 이름 명확히
+- Sections를 Frame 안에서 그룹화 -> React 컴포넌트 대응
+
+--------------------------------------------------------------------
+2. Tailwind + React 설계 범위 확장
+-----------------------------------
+- 모듈 단위 컴포넌트: Header.jsx, Footer.jsx, Section1.jsx, Section2.jsx ...
+- 재사용 가능한 UI 요소 컴포넌트: Button.jsx, Card.jsx, Input.jsx ...
+- 유틸리티 클래스 기반: Tailwind로 Margin, Padding, 색상, 폰트, Flex/Grid 제어
+- 상태 관리와 인터랙션: React useState, useEffect 사용 -> 버튼 클릭, 메뉴 토글, 섹션 애니메이션
+- 모듈 합성: Page.jsx에서 Header -> Sections -> Footer 순으로 조합
+
+Tip:
+- Tailwind + React에서는 컴포넌트 단위 테스트가 핵심
+- 각 Section 독립 렌더링 -> 문제 없으면 Page 조합
+
+--------------------------------------------------------------------
+3. 컴포넌트 재사용 전략
+-----------------------
+1. Header/Footer: 모든 페이지 공용 -> components/Header.jsx, components/Footer.jsx
+2. Sections: 재사용 가능한 Section -> props로 텍스트, 이미지, 색상 변경 가능
+3. UI Elements: Button, Card, Input -> Variants 대신 props와 Tailwind 클래스 사용
+
+예시: Button.jsx
+-----------------
+export default function Button({ children, color = "blue", onClick }) {
+  return (
+    <button
+      className={`px-4 py-2 rounded text-white bg-${color}-500 hover:bg-${color}-600`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+}
+
+--------------------------------------------------------------------
+4. 반응형 + 조합
+----------------
+- Tailwind responsive utilities 사용: sm:, md:, lg:, xl:
+- 각 Section, Header/Footer 모두 반응형 처리
+- React 조건부 렌더링으로 모바일 메뉴, 섹션 표시/숨김 처리
+
+예시:
+<div className="hidden md:flex">데스크탑 메뉴</div>
+<div className="md:hidden">모바일 메뉴</div>
+
+--------------------------------------------------------------------
+5. 배포
+-------
+- Netlify / Vercel -> GitHub 연결 후 자동 배포
+- 실무처럼 CI/CD로 관리 가능
+- Tailwind + React 프로젝트 구조 예시:
+
+src/
+  components/
+    Header.jsx
+    Footer.jsx
+    Section1.jsx
+    Section2.jsx
+  pages/
+    Home.jsx
+  App.jsx
+
+--------------------------------------------------------------------
+핵심 요약
+-----------
+- Figma 무료 -> 모듈 단위 Frame + Components
+- Tailwind + React -> 재사용 가능 컴포넌트 + props 기반 커스터마이징
+- 각 Section/Element 독립 테스트 -> Page 조합 -> 반응형 확인
+- 배포는 Vercel/Netlify, Git 연동
+====================================================================
